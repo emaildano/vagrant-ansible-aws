@@ -1,0 +1,4 @@
+server_blocks:
+  - site_name: example.com
+    site_url: example.com
+    template: 'example.com.conf.j2'

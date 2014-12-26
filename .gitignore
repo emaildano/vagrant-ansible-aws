@@ -3,6 +3,10 @@
 .env.*
 !.env.example
 
+# Config Files
+group_vars/*
+!*.example
+
 # Vagrant
 bin
 .vagrant

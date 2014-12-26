@@ -28,3 +28,9 @@
 
 - name: Create base WordPress subdirectory Multisite config
   template: src=wordpress_multisite_subdirectories.conf.j2 dest=/etc/nginx/wordpress_multisite_subdirectories.conf
+
+- name: Nginx Virtual Hosts (vhosts)
+  template: src=../templates/{{ item.template }} dest=/etc/nginx/conf.d/{{ item.site_url }}.conf mode=0640
+  with_items: server_blocks
+  notify:
+    - nginx-restart

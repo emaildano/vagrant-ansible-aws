@@ -6,12 +6,8 @@ require 'yaml'
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "dummy"
 
-  unless Vagrant.has_plugin? 'vagrant-env'
-    puts 'vagrant-env missing, please install the plugin:'
-    puts 'vagrant plugin install vagrant-env'
-  end
+  config.vm.box = 'dummy'
 
   config.vm.provider :aws do |aws, override|
     aws.access_key_id = ENV['ACCESS_KEY_ID']
@@ -31,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "site.yml"
+    ansible.playbook = "playbook.yml"
   end
 
 end
