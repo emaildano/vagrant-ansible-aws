@@ -3,11 +3,12 @@
 
 require 'yaml'
 
-VAGRANTFILE_API_VERSION = "2"
+VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = 'dummy'
+  config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
 
   config.vm.provider :aws do |aws, override|
     aws.access_key_id = ENV['ACCESS_KEY_ID']
@@ -16,18 +17,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.security_groups = ENV['SECURITY_GROUPS']
     aws.subnet_id = ENV['SUBNET_ID']
     aws.associate_public_ip = true
-    aws.region = "us-east-1"
-    aws.instance_type = "t2.micro"
-    aws.ami = "ami-9eaa1cf6"
-    override.ssh.username = "ubuntu"
+    aws.region = 'us-east-1'
+    aws.instance_type = 't2.micro'
+    aws.ami = 'ami-9eaa1cf6'
+    override.ssh.username = 'ubuntu'
     override.ssh.private_key_path = ENV['PRIVATE_KEY_PATH']
+    aws.block_device_mapping = [{
+      'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 30
+    }]
     aws.tags = {
-      'Name' => 'Vagrant Testing',
+      'Name' => 'Vagrant Testing'
     }
   end
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
+  config.vm.provision 'ansible' do |ansible|
+    ansible.playbook = 'playbook.yml'
   end
 
 end
