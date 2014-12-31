@@ -1,12 +1,10 @@
 #{{ ansible_managed }}
 server {
+
     listen 80;
-
-    server_name example.com;
-
-    root /var/www/example.com;
-
-    error_log /var/log/nginx/example.com.error.log crit;
+    server_name {{ item.site_url }};
+    root /var/www/{{ item.site_url }};
+    error_log /var/log/nginx/{{ item.site_url }}.error.log crit;
 
     # strip app.php/ prefix if it is present
     rewrite ^/app\.php/?(.*)$ /$1 permanent;
@@ -28,4 +26,6 @@ server {
         fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param  HTTPS off;
     }
+
+    include wordpress.conf;
 }
